@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta name="viewport" content="initial-scale=1.0, user-scalable=no">
+    <meta charset="utf-8">
+    <title>Senderismo</title>
+    <style>
+      /* Always set the map height explicitly to define the size of the div
+       * element that contains the map. */
+      #map {
+        height: 100%;
+      }
+      /* Optional: Makes the sample page fill the window. */
+      html, body {
+        height: 100%;
+        margin: 0;
+        padding: 0;
+      }
+    </style>
+    <script src="https://www.google.com/jsapi"></script>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  </head>
+  <body>
+    <div>
+      <div id="map" style="height:800px;"></div>
+      <div id="elevation_chart"></div>
+      <script>
+        // Load the Visualization API and the columnchart package.
+      google.load('visualization', '1', {packages: ['columnchart']});
+
+      function initMap() {
+        // The following path marks a path from Mt. Whitney, the highest point in the
+        // continental United States to Badwater, Death Valley, the lowest point.
+		
+		var map = new google.maps.Map(document.getElementById('map'), {
+          zoom: 11,
+		  //記得挑個地圖中心
+          center: {lat: 24.919409, lng: 121.623910},		  
+          mapTypeId: 'terrain'
+        });
+		
+		//南港-頭城
+		{var CorredorE = null;
+			$.ajax({
+				url: "https://arrrbarcelona.github.io/Corredor/北宜.json",
+				type: 'get',
+				dataType: 'json',
+				async: false,
+				success: function(data) {
+					CorredorE = data;
+				} 
+			});
+		}
+		var PathCorredorE = new google.maps.Polyline({
+          path: CorredorE.Coor,
+          geodesic: true,
+          strokeColor: '#000000',
+          strokeOpacity: 1,
+        });
+		PathCorredorE.setMap(map);
+		
+      }
+
+
+	  
+ 
+      </script>
+      <script async defer
+      src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDJjIjd9Wh0W4pjt044iElfiuL-P-J_kOw&callback=initMap">
+      </script>
+    </div>
+  </body>
+</html>
